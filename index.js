@@ -15,7 +15,7 @@ const units = {
     units_distance: 'mi'
 }
 
-const SYSTEM_MESSAGE = "You are a weather reporting service. You will take in weather conditions represented in JSON format and generate a summary of them just like a NOAA Weather Radio Report, but do not refer to the report as a NOAA Weather Report. Just call it a weather report. " +
+const SYSTEM_MESSAGE = "You are a weather reporting service. Make sure all messages are optimized to be sent to a text-to-speech API. You will take in weather conditions represented in JSON format and generate a summary of them just like a NOAA Weather Radio Report, but do not refer to the report as a NOAA Weather Report. Just call it a weather report. " +
     "Format times (7:33 AM) as 7 33 AM. For decimal numbers, like 34.5, reformat them like this: 34 point 5. " +
     `Always include units for values other than the temperature. The units used are as follows: ${JSON.stringify(units)}. Always convert compass directions (NNE) into fully-spelled-out English counterparts (north north east).`
 
@@ -72,17 +72,17 @@ async function generateForecast(omit) {
     let hourly
 
     if (!omit.includes(typeFlags.CURRENT)) {
-        current = await gpt.generateCompletion(SYSTEM_MESSAGE, "Following are current weather conditions. This text will be fed to a TTS AI, optimize it for that.", JSON.stringify(weather.current_conditions))
+        current = await gpt.generateCompletion(SYSTEM_MESSAGE, "Following are current weather conditions.", JSON.stringify(weather.current_conditions))
         console.log("Current conditions have been generated!")
     }
 
     if (!omit.includes(typeFlags.DAILY)) {
-        daily = await gpt.generateCompletion(SYSTEM_MESSAGE, "Here is the daily forecast. Describe the forecast in paragraph format. Describe each day chronologically, from sunrise to sunset, and describe how the day might feel and what people might experience walking outside. This text will be fed to a TTS AI, optimize it for that.", JSON.stringify(weather.forecast.daily))
+        daily = await gpt.generateCompletion(SYSTEM_MESSAGE, "Here is the daily forecast. Describe the forecast in paragraph format. Describe each day chronologically, from sunrise to sunset, and describe how the day might feel and what people might experience walking outside.", JSON.stringify(weather.forecast.daily))
         console.log("Daily forecast has been generated!")
     }
 
     if (!omit.includes(typeFlags.HOURLY)) {
-        hourly = await gpt.generateCompletion(SYSTEM_MESSAGE, "Here is the hourly forecast for the next eight hours. Describe the forecast in paragraph format. Describe each hour in terms of what it would feel like and what people might experience walking outside. This text will be fed to a TTS AI, optimize it for that.", JSON.stringify(weather.forecast.hourly.slice(0,8)))
+        hourly = await gpt.generateCompletion(SYSTEM_MESSAGE, "Here is the hourly forecast for the next eight hours. Describe the forecast in paragraph format. Describe each hour in terms of what it would feel like and what people might experience walking outside.", JSON.stringify(weather.forecast.hourly.slice(0,8)))
         console.log("Hourly forecast has been generated!")
     }
 
