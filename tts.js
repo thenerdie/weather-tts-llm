@@ -1,3 +1,9 @@
+const fs = require("fs")
+
+try {
+    fs.mkdirSync("./playlist")
+} catch {}
+
 const gTTS = require('gtts');
 const path = require('path');
 
@@ -15,7 +21,7 @@ function save(filepath, text) {
 }
 
 module.exports.synthesize = async (text, filename, format="mp3") => {
-    let filepath = path.join(__dirname, `${filename}.${format}`);
+    let filepath = path.join(__dirname, `/playlist/${filename}.${format}`);
     await save(filepath, text);
 
     return filepath;

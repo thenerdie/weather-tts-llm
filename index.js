@@ -7,7 +7,8 @@ const { format } = require("date-fns")
 const tts = require("./tts")
 const gpt = require("./gpt")
 
-const SYSTEM_MESSAGE = "You are a weather reporting service. You will take in weather conditions represented in JSON format and generate a summary of them just like a NOAA Weather Radio Report, but do not refer to the report as a NOAA Weather Report. Just call it a weather report."
+const SYSTEM_MESSAGE = "You are a weather reporting service. You will take in weather conditions represented in JSON format and generate a summary of them just like a NOAA Weather Radio Report, but do not refer to the report as a NOAA Weather Report. Just call it a weather report. " +
+    "Format times (7:33 AM) as 7 33 AM. For decimal numbers, like 34.5, reformat them like this: 34 point 5."
 
 function formatTimestamp(timestamp, expression) {
     return format(new Date(timestamp * 1000), expression)
